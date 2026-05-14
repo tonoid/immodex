@@ -1,0 +1,521 @@
+/* ═══ Immodex — Pokédex-style overlay ═══ */
+
+:root {
+  --imx-red: #dc2626;
+  --imx-red-dark: #991b1b;
+  --imx-red-deep: #7f1d1d;
+  --imx-red-shadow: #450a0a;
+  --imx-lens-glow: #93c5fd;
+  --imx-lens-mid: #3b82f6;
+  --imx-lens-deep: #1e3a8a;
+  --imx-led-red: #ef4444;
+  --imx-led-yellow: #facc15;
+  --imx-led-green: #22c55e;
+  --imx-screen-bg-1: #0d2818;
+  --imx-screen-bg-2: #1a3a2a;
+  --imx-screen-frame: #064e3b;
+  --imx-screen-text: #d1fae5;
+  --imx-screen-bright: #6ee7b7;
+  --imx-screen-dim: #4ade80;
+  --imx-screen-soft: #86efac;
+  --imx-ink: #052e16;
+}
+
+/* ─── Floating action button — Pokédex-style chip ─── */
+.immodex-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(180deg, var(--imx-red) 0%, var(--imx-red-dark) 60%, var(--imx-red-deep) 100%);
+  border: 2px solid var(--imx-red-shadow);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow:
+    0 3px 0 var(--imx-red-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+  z-index: 999;
+  padding: 9px 14px;
+}
+
+.immodex-floating-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  padding: 10px 14px 10px 12px;
+  font-size: 12px;
+  z-index: 2147483646;
+}
+
+.immodex-floating-btn::before {
+  content: '';
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, var(--imx-lens-glow) 30%, var(--imx-lens-mid) 65%, var(--imx-lens-deep) 100%);
+  border: 2px solid #ffffff;
+  box-shadow:
+    0 0 0 1px var(--imx-red-shadow),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.immodex-floating-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 var(--imx-red-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.immodex-floating-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--imx-red-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.immodex-btn:not(.immodex-floating-btn) {
+  margin: 8px 0;
+}
+
+.immodex-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ─── The card — a Pokédex unit ─── */
+.immodex-card {
+  position: fixed;
+  right: 16px;
+  bottom: 92px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  background: linear-gradient(160deg, var(--imx-red) 0%, var(--imx-red-dark) 60%, var(--imx-red-deep) 100%);
+  color: #fff;
+  border: 3px solid var(--imx-red-shadow);
+  border-radius: 14px;
+  box-shadow:
+    0 14px 38px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  z-index: 2147483647;
+  padding: 0;
+}
+
+.immodex-card * {
+  box-sizing: border-box;
+}
+
+/* ─── Header: lens + LEDs + brand ─── */
+.immodex-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+  border-bottom: 3px solid var(--imx-red-shadow);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent);
+  position: relative;
+}
+
+.immodex-header::before {
+  content: '';
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, var(--imx-lens-glow) 28%, var(--imx-lens-mid) 60%, var(--imx-lens-deep) 100%);
+  border: 3px solid #ffffff;
+  box-shadow:
+    0 0 0 2px var(--imx-red-shadow),
+    0 0 0 3px rgba(255, 255, 255, 0.85),
+    0 0 0 5px var(--imx-red-shadow),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.immodex-header::after {
+  content: '';
+  position: absolute;
+  left: 22px;
+  top: 18px;
+  width: 10px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+
+.immodex-title {
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 0 var(--imx-red-shadow), 0 2px 0 rgba(0, 0, 0, 0.35);
+  flex: 1;
+}
+
+.immodex-close {
+  background: var(--imx-red-shadow);
+  border: 2px solid #1a1a1a;
+  color: #fee2e2;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  padding: 0;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.immodex-close:hover {
+  background: #991b1b;
+}
+
+/* ─── LCD screen (fields + result) ─── */
+.immodex-fields {
+  margin: 10px 12px 0;
+  padding: 8px 10px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.06) 2px 3px),
+    linear-gradient(180deg, var(--imx-screen-bg-1), var(--imx-screen-bg-2));
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6), inset 0 0 2px rgba(110, 231, 183, 0.4);
+  font-size: 11px;
+}
+
+.immodex-fields-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  color: var(--imx-screen-bright);
+}
+
+.immodex-fields-label {
+  color: var(--imx-screen-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.immodex-status {
+  margin: 10px 12px;
+  padding: 7px 9px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--imx-screen-frame);
+  border-radius: 4px;
+  color: var(--imx-screen-bright);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.immodex-error {
+  margin: 10px 12px;
+  padding: 8px 10px;
+  background: rgba(127, 29, 29, 0.7);
+  color: #fecaca;
+  border: 2px solid #1a1a1a;
+  border-left: 4px solid var(--imx-led-red);
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* ─── Date prompt ─── */
+.immodex-date-prompt {
+  margin: 10px 12px;
+  padding: 10px;
+  background: linear-gradient(180deg, var(--imx-screen-bg-1), var(--imx-screen-bg-2));
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.immodex-date-prompt label {
+  display: block;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--imx-screen-soft);
+  margin-bottom: 6px;
+}
+
+.immodex-date-prompt input {
+  width: 100%;
+  padding: 7px 9px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--imx-screen-bright);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--imx-screen-frame);
+  border-radius: 3px;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.immodex-date-prompt input:focus {
+  border-color: var(--imx-screen-bright);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(110, 231, 183, 0.3);
+}
+
+.immodex-date-prompt button {
+  margin-top: 8px;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(180deg, #2563eb, #1d4ed8 60%, #1e3a8a);
+  border: 2px solid #1e3a8a;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #172554, inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.immodex-date-prompt button:hover {
+  filter: brightness(1.1);
+}
+
+.immodex-skip-date {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 11px;
+  color: var(--imx-lens-glow);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(147, 197, 253, 0.5);
+  cursor: pointer;
+}
+
+/* ─── Top result panel ─── */
+.immodex-top {
+  margin: 10px 12px 0;
+  padding: 10px 12px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.06) 2px 3px),
+    linear-gradient(180deg, var(--imx-screen-bg-1), var(--imx-screen-bg-2));
+  border: 2px solid #1a1a1a;
+  border-left: 5px solid var(--imx-screen-frame);
+  border-radius: 0 6px 6px 0;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+.immodex-top.immodex-conf-green {
+  border-left-color: var(--imx-led-green);
+  box-shadow: inset 0 0 12px rgba(34, 197, 94, 0.25);
+}
+.immodex-top.immodex-conf-yellow {
+  border-left-color: var(--imx-led-yellow);
+  box-shadow: inset 0 0 12px rgba(250, 204, 21, 0.25);
+}
+.immodex-top.immodex-conf-red {
+  border-left-color: var(--imx-led-red);
+  box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.25);
+}
+
+.immodex-address {
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--imx-screen-bright);
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+}
+
+.immodex-meta {
+  font-size: 11px;
+  color: var(--imx-screen-soft);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.immodex-confidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--imx-screen-text);
+}
+
+.immodex-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.immodex-conf-green .immodex-dot {
+  background: radial-gradient(circle at 30% 30%, #dcfce7, var(--imx-led-green));
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.8);
+}
+
+.immodex-conf-yellow .immodex-dot {
+  background: radial-gradient(circle at 30% 30%, #fef9c3, var(--imx-led-yellow));
+  box-shadow: 0 0 6px rgba(250, 204, 21, 0.8);
+}
+
+.immodex-conf-red .immodex-dot {
+  background: radial-gradient(circle at 30% 30%, #fecaca, var(--imx-led-red));
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+  animation: imx-blink 1.6s infinite;
+}
+
+@keyframes imx-blink {
+  0%, 60%, 100% { opacity: 1; }
+  70%, 90% { opacity: 0.35; }
+}
+
+.immodex-links {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 11px;
+}
+
+.immodex-links a {
+  color: var(--imx-lens-glow);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(147, 197, 253, 0.5);
+}
+
+.immodex-links a:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+/* ─── Alts ─── */
+.immodex-alts {
+  margin: 10px 12px 0;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--imx-red-shadow);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.immodex-alts summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fecaca;
+}
+
+.immodex-alt-row {
+  border-top: 1px dashed var(--imx-red-shadow);
+  padding: 6px 0;
+  font-size: 11px;
+  color: var(--imx-screen-text);
+}
+
+.immodex-alt-row:first-of-type {
+  border-top: none;
+}
+
+.immodex-alt-address {
+  font-weight: 700;
+  color: var(--imx-screen-bright);
+}
+
+.immodex-alt-diffs {
+  color: #fca5a5;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.immodex-parcel-id {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  color: var(--imx-screen-soft);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+/* ─── Empty + footer ─── */
+.immodex-empty {
+  margin: 10px 12px;
+  padding: 9px 11px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--imx-red-shadow);
+  border-left: 4px solid var(--imx-led-yellow);
+  border-radius: 4px;
+  color: var(--imx-screen-soft);
+  font-size: 11px;
+}
+
+.immodex-footer {
+  margin: 10px 12px 12px;
+  padding: 6px 10px;
+  font-size: 10px;
+  color: #fecaca;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.immodex-footer a {
+  color: var(--imx-lens-glow);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(147, 197, 253, 0.5);
+  cursor: pointer;
+}
+
+.immodex-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 10px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.immodex-credit:hover {
+  opacity: 1;
+}
+
+.immodex-credit a {
+  color: #fecaca !important;
+  text-decoration: none;
+  border-bottom: none !important;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.immodex-credit a:hover {
+  color: #ffffff !important;
+}
+
+.immodex-credit-tonoid:hover {
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.6) !important;
+}
+
+.immodex-credit svg {
+  flex-shrink: 0;
+}

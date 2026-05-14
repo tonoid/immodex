@@ -1,0 +1,86 @@
+{
+  "manifest_version": 3,
+  "name": "Immodex",
+  "version": "0.1.0",
+  "description": "Trouve l'adresse réelle d'une annonce immobilière (Leboncoin, Bienici, SeLoger) via le registre ADEME des DPE et le cadastre IGN.",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "action": {
+    "default_title": "Immodex",
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://data.ademe.fr/*",
+    "https://apicarto.ign.fr/*",
+    "https://geo.api.gouv.fr/*",
+    "https://api-adresse.data.gouv.fr/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.leboncoin.fr/ad/*",
+        "https://www.leboncoin.fr/vi/*",
+        "https://www.leboncoin.fr/locations/*",
+        "https://www.leboncoin.fr/ventes_immobilieres/*"
+      ],
+      "js": [
+        "src/common/extract.js",
+        "src/ui/overlay.js",
+        "src/content/leboncoin.js"
+      ],
+      "css": ["src/ui/overlay.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.bienici.com/*",
+        "https://bienici.com/*"
+      ],
+      "js": [
+        "src/common/extract.js",
+        "src/ui/overlay.js",
+        "src/content/bienici.js"
+      ],
+      "css": ["src/ui/overlay.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.seloger.com/annonces/*",
+        "https://www.seloger.com/*.htm"
+      ],
+      "js": [
+        "src/common/extract.js",
+        "src/ui/overlay.js",
+        "src/content/seloger.js"
+      ],
+      "css": ["src/ui/overlay.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/ui/overlay.css"],
+      "matches": [
+        "https://www.leboncoin.fr/*",
+        "https://www.bienici.com/*",
+        "https://www.seloger.com/*"
+      ]
+    }
+  ]
+}

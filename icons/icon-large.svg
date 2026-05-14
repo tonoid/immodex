@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="lens" cx="0.35" cy="0.32" r="0.75">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.22" stop-color="#bfdbfe"/>
+      <stop offset="0.55" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </radialGradient>
+  </defs>
+
+  <!-- chassis: solid red rounded square with deep border -->
+  <rect x="4" y="4" width="120" height="120" rx="22" fill="#c1272d" stroke="#450a0a" stroke-width="4"/>
+
+  <!-- top highlight -->
+  <rect x="10" y="10" width="108" height="5" rx="2.5" fill="#ffffff" opacity="0.18"/>
+
+  <!-- lens bezel + halo -->
+  <circle cx="46" cy="52" r="32" fill="#450a0a"/>
+  <circle cx="46" cy="52" r="29" fill="#ffffff"/>
+  <circle cx="46" cy="52" r="26" fill="#1e3a8a"/>
+  <circle cx="46" cy="52" r="23" fill="url(#lens)"/>
+  <ellipse cx="37" cy="42" rx="8" ry="4" fill="#ffffff" opacity="0.85"/>
+
+  <!-- status LEDs -->
+  <circle cx="86" cy="28" r="5" fill="#ef4444" stroke="#450a0a" stroke-width="1.5"/>
+  <circle cx="98" cy="28" r="4" fill="#facc15" stroke="#450a0a" stroke-width="1.2"/>
+  <circle cx="108" cy="28" r="4" fill="#22c55e" stroke="#450a0a" stroke-width="1.2"/>
+
+  <!-- vent stripes -->
+  <rect x="84" y="46" width="32" height="3" rx="1.5" fill="#450a0a"/>
+  <rect x="84" y="52" width="32" height="3" rx="1.5" fill="#450a0a"/>
+  <rect x="84" y="58" width="32" height="3" rx="1.5" fill="#450a0a"/>
+
+  <!-- LCD screen -->
+  <rect x="16" y="88" width="96" height="28" rx="5" fill="#0d2818" stroke="#0a0a0a" stroke-width="2.5"/>
+  <rect x="20" y="93" width="78" height="2.5" rx="1" fill="#6ee7b7" opacity="0.85"/>
+  <rect x="20" y="100" width="56" height="2.5" rx="1" fill="#6ee7b7" opacity="0.6"/>
+  <rect x="20" y="107" width="66" height="2.5" rx="1" fill="#6ee7b7" opacity="0.4"/>
+</svg>
