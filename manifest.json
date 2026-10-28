@@ -62,6 +62,7 @@
     {
       "matches": [
         "https://www.seloger.com/annonces/*",
+        "https://www.seloger.com/annonce/*",
         "https://www.seloger.com/*.htm"
       ],
       "js": [
